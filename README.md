@@ -1,6 +1,6 @@
 # upgrade-audit
 
-升级审计：让 Agent 定期把对话里的知识沉淀进文档体系。
+你教 AI 一次怎么干活，它第二天又忘了。这个 skill 让 AI 每天自主扫描对话记录，把你的偏好、踩坑经验和流程约定沉淀进长期知识体系，真正做到教一遍就会，不用反复纠正。
 
 ## 这是什么 / 解决什么问题
 
@@ -66,8 +66,8 @@ git clone https://github.com/ruodou233/upgrade-audit.git ~/.agents/skills/upgrad
 ## 相关 Skill 推荐
 
 <!-- 本表由维护脚本生成，勿手工编辑 -->
-- [agent-orchestration](https://github.com/ruodou233/agent-orchestration)：长任务治理：主代理指挥、子代理干活、状态落盘、断点续跑
-- [cross-review](https://github.com/ruodou233/cross-review)：跨厂商双审：让另一家公司的最强模型独立审你的方案
-- [claude-cache-keepalive](https://github.com/ruodou233/claude-cache-keepalive)：Claude 缓存保温：实测 TTL、按环境设计保温节拍，控制冷读成本
+- [agent-orchestration](https://github.com/ruodou233/agent-orchestration)：长任务/过夜流程编排，Agent 自主跑、自主省 token，不用你盯
+- [cross-review](https://github.com/ruodou233/cross-review)：跨模型双审，让 AI 自己把活干完整，不用你擦屁股
+- [claude-cache-keepalive](https://github.com/ruodou233/claude-cache-keepalive)：缓存保温策略，最高可压低 90% token 消耗，各种 Agent 通用
 
 完整目录见 [GitHub 主页](https://github.com/ruodou233)。
