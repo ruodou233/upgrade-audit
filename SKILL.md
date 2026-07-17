@@ -61,10 +61,8 @@ description: >
 2. **重复指令 / 偏好声明**：同一件事被反复交代，或出现"以后都…""默认用…""别再…"
 3. **踩坑与 workaround**：报错/异常经诊断解决，或找到非显而易见的绕过方法
 4. **架构决策**：在多个方案中做了选择并解释了为什么
-5. **可复用模式**：反复做类似结构的工作，或 AI 产出好方案未被固化
+5. **可复用模式**：反复做类似结构的工作，或 AI 产出的好方案/输出被直接采用却未固化为模板、skill 或 automation（沉默的满意）
 6. **新 skill 候选**：出现稳定触发词、可复用步骤、专门输入/输出格式、脚本/模板资产，且放在 agent-memory 会污染全局上下文
-
-容易漏掉的信号：用户没说"错了"但默默改了输出再继续（隐性纠正）；用户说"算了还是用之前的方案"（话题回退）；用户对某段输出没修改直接用了但未保存为模板（沉默的满意）。
 
 ---
 
@@ -85,7 +83,7 @@ description: >
 
 ## 审计产物存放
 
-- **Skip 记录 / 暂存信号**：写入 `agent-memory.md` 对应段（每次审计先查 skip 避免反复评估）
+- **Skip 记录 / 暂存信号**：写入 `audit_triage_file`（默认 `references/audit-triage.md`，配置见 `local-config.example.md`）对应段。无论完整审计还是定向审查，只要可能生成、修改或引用 Skip/暂存建议，必须先读取该文件用于去重与到期判断；不是 always-read 的 `agent-memory.md`，避免每次对话都加载审计专用状态
 - **审计报告**：交互式审计写 `audit-reports/YYYY-MM-DD.md`；v3 定时自动化写 `<date>-codex.md` / `<date>-claude.md` / `<date>-synthesis.md`；同时在对话框输出完整可读结论
 - **运行日志与水位**：交互式记 `upgrade-audit-log.md`；v3 定时自动化的运行日志与水位（作者环境的自动化实现见下方"作者实现参考：定时自动化"节；automations/README.md 为作者私有文件，不随包发布）
 
@@ -125,7 +123,8 @@ description: >
 4. 文档工程参考：`references/agent-doc-engineering.md`
 5. 编排规范：`references/agent-orchestration.md`（用其中"轻量模式"段）
 6. 知识库：`references/ai-knowledge-base.md`（完整审计时核验其头部「时效说明」列出的快变段与〔需核实〕项是否仍成立；认知篇已拆分为 `references/ai-cognition-perspectives.md`，仅供用户阅读，审计不加载）
-7. 审计对象：Agent 核心文档、`references/*.md`、AgentOps 维护的所有 `skills/*/SKILL.md`、`~/.claude/skills` 本机非 symlink skill、automation prompt/scripts、thin entrypoints；平台/厂商内置 skill 只做清单和触发冲突检查，除非用户指定
+7. 审计知识状态：`audit_triage_file`（默认 `references/audit-triage.md`）——**无论完整审计还是定向审查，只要可能生成、修改或引用 Skip/暂存信号，必须先读取本文件**，用于去重与到期判断；到期未处理的限时待办需在报告中升级提醒
+8. 审计对象：Agent 核心文档、`references/*.md`、AgentOps 维护的所有 `skills/*/SKILL.md`、`~/.claude/skills` 本机非 symlink skill、automation prompt/scripts、thin entrypoints；平台/厂商内置 skill 只做清单和触发冲突检查，除非用户指定
 
 ### 执行步骤
 
@@ -133,9 +132,9 @@ description: >
 
 完整每日审计按调用方模式执行：
 - 交互式/人工授权审计：从 `upgrade-audit-log.md` 读水位，成功后更新 log/watermark，按收尾规范 git/云文档镜像同步。
-- v3 定时自动化：（作者环境的自动化实现见下方"作者实现参考：定时自动化"节；automations/README.md 为作者私有文件，不随包发布）Codex 侧只写 `audit-reports/<date>-codex.md` 并维护自己的 automation memory 软水位；Claude 侧由作者环境审计脚本维护机器水位文件；综合合并报告并追加 Codex 跨公司复核段，不碰任何 watermark。无人值守不修改 shared docs/log，除非调用方明确授权。
+- v3 定时自动化：调度、水位与产物约定见下方"作者实现参考：定时自动化"节（automations/README.md 为作者私有文件，不随包发布）；无人值守只产报告与运行状态，不自动修改知识文档/代码（除非调用方明确授权）。
 
-模型与输出偏好：升级审计默认使用当前可用的最强模型和你批准的高档位（注意自动委派类档位的副作用与成本）。审计报告文件用于归档、综合和机器消费；同时必须在对话框直接输出同一轮审计的完整可读结论，不能只给文件路径。
+模型与输出要求以本包 `upgrade-audit.md`「注意事项 · 模型与输出」为准。
 
 1. **确定扫描区间**：按上述双轨模式确定水位来源
 2. **清点并读取审计对象**：列出对话 session、核心文档、reference、AgentOps skill、automation、thin entrypoint；完整审计必须读核心文档和所有 AgentOps `skills/*/SKILL.md`，skill 子文件按引用、近期变更、问题信号或轮换抽样读取
@@ -161,7 +160,7 @@ description: >
 
 1. **Codex 侧审计**：18:44 触发，best-effort 扫描本机可达材料（以自己 sessions 为主，也可覆盖其他可读备份）和 AgentOps 文档体系，写 `audit-reports/<date>-codex.md`。水位是软水位，由该侧 automation memory 以自然语言维护；漏扫不保证下次自动补回。
 2. **Claude 侧审计**：18:44 触发，21:44 catch-up。扫描 `~/.claude/projects`、`~/.codex/sessions`、核心文档、reference、skills 和 automation。机器水位使用水位文件保存时间戳，窗口在启动时刻闭合；成功才推进水位，并做写后回读校验，失败不推进，下次自然补扫。catch-up 只补第一次没跑成的情况；幂等门用于避免当天已有成功报告时重复劳动；开机门用于跳过计划时点前的提前触发，防止产半日报告并提前推进水位。
-3. **综合**：19:44 触发，22:04 catch-up，无状态读取当天 `<date>-claude.md` 与 `<date>-codex.md`。缺一边就标注 partial，不碰任何 watermark；两边都齐时写 `<date>-synthesis.md`，并追加跨公司复核段。第二触发点用于把 partial 综合补成完整综合。
+3. **综合**：19:44 触发，22:04 catch-up，无状态读取当天 `<date>-claude.md` 与 `<date>-codex.md`。缺一边就标注 partial，不碰任何 watermark；两边都齐时写 `<date>-synthesis.md`，并追加另一家模型的单路校验段。第二触发点用于把 partial 综合补成完整综合。
 4. **Digest 推送**：20:15 由 Agent 平台内置定时能力推送当日状态摘要；它依赖平台应用自身可触发，不作为常驻系统进程假设。
 
 深审 manifest 机制：审计脚本确定性生成"路径 + hash"清单，覆盖长期记忆、审计规范、automation 说明、references、skills，以及本机非 symlink skill；把清单注入 prompt，供子代理分组做逐段措辞级深审。若某文档 hash 与昨日报告一致且昨日判定无需修改，可引用昨日结论带过，减少重复输出；该机制不依赖 mtime。
@@ -183,6 +182,7 @@ LLM 子进程只读硬化：扫描和综合用的 LLM 子进程只配置只读 C
 
 - 选择文档体系根目录，默认 `~/Documents/AgentOps`，也可改成任意使用者指定目录。
 - 从 `templates/agent-memory-template.md` 生成使用者自己的记忆主文档。
+- 从 `templates/audit-triage-template.md` 初始化使用者自己的 `audit_triage_file`（默认 `references/audit-triage.md`），Skip 记录/暂存信号只写这个活动文件，不要直接编辑模板本身。**已有旧版记忆文档（含 Skip 记录/暂存信号两节）的使用者**：先把这两节的现有内容原样复制进新初始化的 `audit_triage_file` 并核对行数与内容一致，确认无误后再从记忆文档里删除这两节——不要直接用模板覆盖或跳过复制，否则会丢失已积累的历史判断。
 - 接入使用者平台的全局记忆入口或项目入口指令。
 - 可选生成定时任务。安装前必须再次说明触发时间、执行命令、写入位置和停用方法，并获得同意。
 - 多机使用时，可建立 git repo 做跨机同步：审计前 pull，审计后在使用者批准的修改范围内 commit/push。

@@ -10,6 +10,7 @@
 - skills_dir: `~/Documents/AgentOps/skills`
 - references_dir: `~/Documents/AgentOps/references`
 - templates_dir: `~/Documents/AgentOps/templates`
+- audit_triage_file: `~/Documents/AgentOps/references/audit-triage.md`（Skip 记录/暂存信号的唯一活动状态文件；首次使用从 `templates/audit-triage-template.md` 初始化，不要直接编辑模板）
 
 ## 对话记录
 
