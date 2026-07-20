@@ -108,6 +108,7 @@ description: >
 以下文档是别人的经验可作为参考，但审计应基于自身判断而非完全照做：
 
 - `references/agent-doc-engineering.md`：文档工程经验参考（含 Claude Code 泄露源码 AutoDream 记忆整理机制的借鉴要点）
+- `references/web-research-standards.md`：联网信息质量共享规范，判断评论区信号、跨源印证、证据权重与覆盖面披露的核心思路
 
 ## 执行入口（作者环境的加载与分工）
 
