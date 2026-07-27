@@ -63,6 +63,7 @@ description: >
 4. **架构决策**：在多个方案中做了选择并解释了为什么
 5. **可复用模式**：反复做类似结构的工作，或 AI 产出的好方案/输出被直接采用却未固化为模板、skill 或 automation（沉默的满意）
 6. **新 skill 候选**：出现稳定触发词、可复用步骤、专门输入/输出格式、脚本/模板资产，且放在 agent-memory 会污染全局上下文
+7. **领域知识注入**：用户花时间解释了 AI 原先不知道的业务概念、术语、流程或背景——识别为沉淀候选，按「文档体系维护」的归位规则决定进现有/新建 reference、skill 或长期记忆
 
 ---
 
@@ -112,17 +113,19 @@ description: >
 
 ## 执行入口（作者环境的加载与分工）
 
+> 设计说明：作者环境中本规范是独立共享文档，Claude Code 与 Codex 通过 symlink 共用同一个薄入口 skill 指向它——核心逻辑只维护一份，避免入口各自演化（重复漂移）。单仓安装无需复刻此结构：本 SKILL.md 已是自包含完整规范；只有当你也要让多个 Agent 共用同一规范时，才建议照此拆分。
+
 ### 加载文件
 
 定向审查时，按用户给定范围加载相关文件，不强制展开完整审计上下文。
 
 完整每日审计时加载基础规范，并据此清点审计对象（以下路径均相对于 AgentOps 根目录 `$HOME/Documents/AgentOps`）：
 
-1. 共享规范：`upgrade-audit.md`
+1. 共享规范：本文档（SKILL.md）
 2. 长期记忆：`agent-memory.md`
 3. 运行日志：`upgrade-audit-log.md`（读水位，确定扫描起点）
 4. 文档工程参考：`references/agent-doc-engineering.md`
-5. 编排规范：`references/agent-orchestration.md`（用其中"轻量模式"段）
+5. 编排规范：`references/agent-orchestration.md`（作者私有路径，本包未附带，未安装时跳过、不影响本 skill 独立运行；对应开源版为 https://github.com/ruodou233/agent-orchestration 的"轻量模式"段）
 6. 知识库：`references/ai-knowledge-base.md`（完整审计时核验其头部「时效说明」列出的快变段与〔需核实〕项是否仍成立；认知篇已拆分为 `references/ai-cognition-perspectives.md`，仅供用户阅读，审计不加载）
 7. 审计知识状态：`audit_triage_file`（默认 `references/audit-triage.md`）——**无论完整审计还是定向审查，只要可能生成、修改或引用 Skip/暂存信号，必须先读取本文件**，用于去重与到期判断；到期未处理的限时待办需在报告中升级提醒
 8. 审计对象：Agent 核心文档、`references/*.md`、AgentOps 维护的所有 `skills/*/SKILL.md`、`~/.claude/skills` 本机非 symlink skill、automation prompt/scripts、thin entrypoints；平台/厂商内置 skill 只做清单和触发冲突检查，除非用户指定
@@ -135,13 +138,13 @@ description: >
 - 交互式/人工授权审计：从 `upgrade-audit-log.md` 读水位，成功后更新 log/watermark，按收尾规范 git/云文档镜像同步。
 - v3 定时自动化：调度、水位与产物约定见下方"作者实现参考：定时自动化"节（automations/README.md 为作者私有文件，不随包发布）；无人值守只产报告与运行状态，不自动修改知识文档/代码（除非调用方明确授权）。
 
-模型与输出要求以本包 `upgrade-audit.md`「注意事项 · 模型与输出」为准。
+模型与输出要求以本文档「注意事项 · 模型与输出」为准。
 
 1. **确定扫描区间**：按上述双轨模式确定水位来源
 2. **清点并读取审计对象**：列出对话 session、核心文档、reference、AgentOps skill、automation、thin entrypoint；完整审计必须读核心文档和所有 AgentOps `skills/*/SKILL.md`，skill 子文件按引用、近期变更、问题信号或轮换抽样读取
 3. **分派子代理**：按下方分工原则拆分长对话、大文档和跨文档比对
 4. **主代理汇总**：去重、交叉验证、分级，并对每条建议做归位判断：升入 agent-memory、从 agent-memory 下沉、写入/扩展 skill、写入/扩展 reference、新建 skill、新建文档、合并、删除、skip 或暂存观察
-5. **检查重复与边界**：比较 agent-memory、core docs、skills、references 中的重复内容；同一受众/触发/更新周期的合并为单一 source of truth，不同边界的保留局部说明并交叉引用
+5. **检查重复、边界与能力缺口**：比较 agent-memory、core docs、skills、references 中的重复内容；同一受众/触发/更新周期的合并为单一 source of truth，不同边界的保留局部说明并交叉引用。对有外部依赖的 Skill，检查能力缺失且影响当前成功标准时，是否提供与净收益相称的官方补齐路线和可继续的替代路线，并遵守宿主连接机制；不要把所有可选集成都判成必须安装
 6. **生成报告并回贴结论**：写入 `audit-reports/YYYY-MM-DD-<主题>.md`，按上述双轨模式更新对应 log/watermark；随后在对话框输出同一份三段式可读结论。报告须列出覆盖清单、归位判断、新 skill 候选（附置信度）、云端收尾状态（GitHub push、云文档镜像同步是否完成、哪些待收尾）——交互式运行可直接收尾（Claude Code / Codex 均可直接 push 与同步），无人值守模式只列出待办交用户审阅
 7. **验证**：重要或高影响修改优先用当前可用的最强模型作为独立子代理审查；不可用时记录缺口，不作为硬阻塞
 8. **提交用户审阅**：无人值守或纯报告模式下，建议行动先提交用户审阅；用户本轮明确要求执行时直接推进
