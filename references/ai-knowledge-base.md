@@ -97,7 +97,7 @@ SWE-bench 上只给一个 prompt、一个 Bash 工具、一个 Edit 工具，"�
 - **worktrees**（截至 2026-07）：enter/exit 工具自主开隔离分支，多任务并行。
 - **Auto Mode**（截至 2026-07）：权限决策交给 classifier 筛破坏性操作与 prompt injection；有漏报率，适合有版本控制保底的场景；破坏性操作需权限升级——"让 agent 整晚跑"的安全前提（具体实现未公开，以官方当期文档为准）。
 - **effort 参数**（截至 2026-07，已核验[^effort]）：API 档位 `low` / `medium` / `high`（默认）/ `xhigh` / `max`。`xhigh` 适用于最难的 coding/agentic 任务，`max` 不限 token 预算。指挥官可为不同工人子任务指定不同档位。
-- **Task Budgets**（截至 2026-07）：单任务 token 与时间上限，防 agent 死胡同无限消耗。与 effort 配合：低价值任务低 effort + 紧 budget，高价值任务高 effort + 宽 budget。
+- **Task Budgets**（截至 2026-07）：单任务 token 与时间上限，防 agent 死胡同无限消耗。
 
 ### 3.5 社区验证的高效模式
 
