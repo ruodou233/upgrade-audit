@@ -37,7 +37,7 @@
 
 - git_sync_enabled: false
 - pull_before_audit: true
-- push_after_approved_changes: true
+- push_after_approved_changes: false
 - repo_remote: `<your-git-remote>`
 
 ## 开源维护可选项
