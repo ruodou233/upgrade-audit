@@ -1,12 +1,15 @@
 # upgrade-audit
 
-你教 AI 一次怎么干活，它第二天又忘了。这个 skill 让 AI 每天自主扫描对话记录，把你的偏好、踩坑经验和流程约定沉淀进长期知识体系，真正做到教一遍就会，不用反复纠正。
+你教 AI 一次怎么干活，它第二天又忘了。`upgrade-audit` 帮你把对话里的偏好、踩坑经验和可复用做法整理进长期知识体系，也给已有的记忆、文档和 skill 做体检：该补的补，该更新的更新，重复和过时的清出去。让每次纠正都能留下点用处，少教几遍。
 
-## 这是什么 / 解决什么问题
+## 可以拿它整理什么
 
-人与 Agent 协作时，很多真正有价值的知识会散落在对话里：偏好、踩坑、架构选择、可复用流程、反复出现的纠正。与此同时，已有文档会变旧、变长、互相重复，最后反过来拖累 Agent。upgrade-audit 提供一套可执行审计流程，帮助你的 Agent 定期扫描对话和文档，把知识放到正确层级。
+- **最近的协作经验**：“做一次每日审计，看看最近对话里有什么该沉淀。”找反复出现的纠正和有效做法，判断哪些以后还会用到、应该记在哪里。
+- **越写越长的记忆文档**：“帮我看看这些规则还有没有用，重复的合并，过时的改掉。”把每次都需要的留在常读层，只在特定场景有用的放到按需材料里。
+- **积累了一阵子的 skill**：“检查这个 skill 是否过时，给我修改方案。”对照实际任务，查看触发条件、执行步骤和已有规则，把不好用的地方说具体。
+- **总在重复做的工作**：“扫描最近几次对话，看看有没有新 skill 候选。”找稳定出现的需求和可复用步骤，判断哪些值得整理成 skill 或自动化。
 
-这个包包含四件套：分层记忆模板、审计流程、文档工程参考、全球顶尖从业者经验附录。
+可以定期做完整审计，也可以只查一份文档。这个包带有分层记忆模板、审计流程和文档工程参考，方便从零搭起自己的知识体系。
 
 ## 核心功能/亮点
 
@@ -33,15 +36,6 @@ git clone https://github.com/ruodou233/upgrade-audit.git ~/.agents/skills/upgrad
 ```
 
 其他支持 `SKILL.md` 的平台：放入其 skills 目录即可。
-
-## 使用示例
-
-- "做一次每日审计，看看最近对话里有什么该沉淀。"
-  - Agent 会读取本地配置和水位，清点可审计材料，写出实际范围、缺口和审计报告。
-- "检查这个 skill 是否过时，给我修改方案。"
-  - Agent 会做定向审查，重点找触发边界、重复内容、过时规则和缺失验证。
-- "扫描最近几次对话，看看有没有新 skill 候选。"
-  - Agent 会提取稳定触发词、可复用步骤、输入输出和置信度。
 
 ## 首次使用：环境自适应
 
@@ -74,8 +68,8 @@ git clone https://github.com/ruodou233/upgrade-audit.git ~/.agents/skills/upgrad
 ## 相关 Skill 推荐
 
 <!-- 本表由维护脚本生成，勿手工编辑 -->
-- [agent-orchestration](https://github.com/ruodou233/agent-orchestration)：长任务/过夜流程编排，Agent 自主跑、自主省 token，不用你盯
-- [cross-review](https://github.com/ruodou233/cross-review)：跨模型双审，让 AI 自己把活干完整，不用你擦屁股
-- [claude-cache-keepalive](https://github.com/ruodou233/claude-cache-keepalive)：缓存保温策略，最高可压低 90% token 消耗，各种 Agent 通用
+- [agent-orchestration](https://github.com/ruodou233/agent-orchestration)：长任务不用一直盯着：批量调研、读长文、做产物，让 Agent 分工接着干
+- [cross-review](https://github.com/ruodou233/cross-review)：AI 的活总差一点？三路独立审方案、找遗漏、减复杂度
+- [claude-cache-keepalive](https://github.com/ruodou233/claude-cache-keepalive)：缓存保温：实测命中、算清收益，让长会话少花冤枉 token
 
 完整目录见 [GitHub 主页](https://github.com/ruodou233)。
