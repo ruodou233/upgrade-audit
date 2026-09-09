@@ -68,8 +68,8 @@ git clone https://github.com/ruodou233/upgrade-audit.git ~/.agents/skills/upgrad
 ## 相关 Skill 推荐
 
 <!-- 本表由维护脚本生成，勿手工编辑 -->
-- [agent-orchestration](https://github.com/ruodou233/agent-orchestration)：长任务不用一直盯着：批量调研、读长文、做产物，让 Agent 分工接着干
-- [cross-review](https://github.com/ruodou233/cross-review)：AI 的活总差一点？三路独立审方案、找遗漏、减复杂度
+- [agent-orchestration](https://github.com/ruodou233/agent-orchestration)：复杂任务跑到半夜，你不可能一直盯着。让 Agent 分工跑长任务和批量工作，你只管第二天早上收结果。
+- [cross-review](https://github.com/ruodou233/cross-review)：AI 的活总差一点，总要你擦屁股，总打丑补丁？让另一家 AI 挑刺复查，自己把活干完整，不用你一直兜底。
 - [claude-cache-keepalive](https://github.com/ruodou233/claude-cache-keepalive)：缓存保温：实测命中、算清收益，让长会话少花冤枉 token
 
 完整目录见 [GitHub 主页](https://github.com/ruodou233)。
