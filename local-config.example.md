@@ -26,6 +26,8 @@
 - report_dir: `~/Documents/AgentOps/reports/upgrade-audit`
 - advance_watermark_only_after_success: true
 
+水位只推进到连续已审阅完成处；未读位置与完成批次保留在现有日报，续跑合并。若启用周收敛，在现有运行日志保存收敛开始时间，按其后新增或修改的日报消费；旧日期水位迁移包含边界日，读取期间再次修改的报告留到下轮，不另建状态库。
+
 ## 运行模式
 
 - default_mode: `report-only`
