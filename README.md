@@ -1,4 +1,6 @@
-# upgrade-audit
+# AI 记忆与技能审计｜Agent Memory & Skill Audit
+
+Review conversation history, agent memory, and skills to identify reusable lessons and propose updates to outdated instructions.
 
 你教 AI 一次怎么干活，它第二天又忘了。`upgrade-audit` 帮你把对话里的偏好、踩坑经验和可复用做法整理进长期知识体系，也给已有的记忆、文档和 skill 做体检：该补的补，该更新的更新，重复和过时的清出去。让每次纠正都能留下点用处，少教几遍。
 
@@ -70,8 +72,8 @@ git clone https://github.com/ruodou233/upgrade-audit.git ~/.agents/skills/upgrad
 ## 相关 Skill 推荐
 
 <!-- 本表由维护脚本生成，勿手工编辑 -->
-- [agent-orchestration](https://github.com/ruodou233/agent-orchestration)：复杂任务跑到半夜，你不可能一直盯着。让 Agent 分工跑长任务和批量工作，你只管第二天早上收结果。
-- [cross-review](https://github.com/ruodou233/cross-review)：AI 的活总差一点，总要你擦屁股，总打丑补丁？让另一家 AI 挑刺复查，自己把活干完整，不用你一直兜底。
-- [claude-cache-keepalive](https://github.com/ruodou233/claude-cache-keepalive)：缓存保温：实测命中、算清收益，让长会话少花冤枉 token
+- [agent-orchestration](https://github.com/ruodou233/agent-orchestration)：复杂任务跑到半夜，你不可能一直盯着。让 Agent 分工跑长任务和批量工作，你只管第二天早上收结果。<br>Coordinate AI agents for long-running tasks, parallel work, and overnight workflows.
+- [cross-review](https://github.com/ruodou233/cross-review)：AI 的活总差一点，总要你擦屁股，总打丑补丁？让另一家 AI 挑刺复查，自己把活干完整，不用你一直兜底。<br>An agent skill for independent code and design reviews across AI providers, checking correctness, complexity, and better approaches.
+- [claude-cache-keepalive](https://github.com/ruodou233/claude-cache-keepalive)：缓存保温：实测命中、算清收益，让长会话少花冤枉 token<br>Measure prompt cache hits and costs, then configure automatic keepalive when the savings justify it.
 
 完整目录见 [GitHub 主页](https://github.com/ruodou233)。
