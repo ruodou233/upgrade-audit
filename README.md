@@ -47,6 +47,10 @@ git clone https://github.com/ruodou233/upgrade-audit.git ~/.agents/skills/upgrad
 
 本地配置优先写入 `~/.config/agentops-skills/upgrade-audit/local-config.md`；无法写入时可退回 skill 目录内 `local-config.md`。格式见 `local-config.example.md`。
 
+## 审计沉淀的证据价值
+
+我们做了一次委派治理研究，原始材料全部来自每日审计报告和它们留下的会话树：8 轮审计的并发数、主代理上下文峰值、派发失败记录，事后拼成了「fan-out ≥8 必失败、3 个一波 0 失败」的结论。审计每天沉淀的不只是修文档的建议。[完整研究与数据](https://github.com/ruodou233/agent-orchestration/blob/main/research/2026-09-delegation-study.md)
+
 ## Changelog
 
 | 时间 | 变更 |
