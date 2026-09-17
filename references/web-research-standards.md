@@ -1,6 +1,6 @@
 # web-research-standards — 联网信息质量共享规范
 
-> 适用：所有联网搜索/信息整合类 skill 与 automation。思路源自 last30days-skill（github.com/mvanhorn/last30days-skill），2026-07-07 引入。版本：2026-07-07。
+> 适用：所有联网搜索/信息整合类 skill 与 automation。思路源自 last30days-skill（github.com/mvanhorn/last30days-skill）。版本：2026-07-07。
 > 定位：核心思路，不是操作手册；与具体 skill 既有流程冲突时，以更能提高信息质量的一方为准。
 
 ## A 先把查询问对（搜索前）
