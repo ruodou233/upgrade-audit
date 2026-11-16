@@ -144,7 +144,7 @@ description: >
 
 1. 共享规范：本文档（SKILL.md）
 2. 长期记忆：`agent-memory.md`
-3. 水位：每个会话来源单独记一个水位文件（作者环境用 `automations/state/audit-watermarks.md`），确定扫描起点
+3. 水位：每个会话来源单独记一个水位（作者环境按来源分开记在一个状态文件里），确定扫描起点
 4. 文档工程参考：`references/agent-doc-engineering.md`
 5. 编排规范：`references/agent-orchestration.md`（作者私有路径，本包未附带，未安装时跳过、不影响本 skill 独立运行；对应开源版为 https://github.com/ruodou233/agent-orchestration 的"轻量模式"段）
 6. 知识库：`references/ai-knowledge-base.md`（完整审计时核验其头部「时效说明」列出的快变段与〔需核实〕项是否仍成立；认知篇已拆分为 `references/ai-cognition-perspectives.md`，仅供用户阅读，审计不加载）
@@ -156,7 +156,7 @@ description: >
 用户指定范围的定向审查，按该范围直接执行；需要修改且用户已明确要求时，直接推进并在完成后说明。
 
 完整每日审计按调用方模式执行：
-- 交互式/人工授权审计：读各来源水位（作者环境在 `automations/state/audit-watermarks.md`），成功后更新水位，按收尾规范 git/云文档镜像同步。
+- 交互式/人工授权审计：读各来源水位，成功后更新水位，按收尾规范 git/云文档镜像同步。
 - 定时链路：水位原则见下方「定时自动化原则」；具体调度与产物由使用者环境决定。无人值守只产报告与运行状态，不自动修改知识文档/代码（除非调用方明确授权）。
 
 模型与输出要求以本文档「注意事项 · 模型与输出」为准。
