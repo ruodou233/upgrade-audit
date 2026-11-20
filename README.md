@@ -11,18 +11,18 @@ Review conversation history, agent memory, and skills to identify reusable lesso
 - **积累了一阵子的 skill**：“检查这个 skill 是否过时，给我修改方案。”对照实际任务，查看触发条件、执行步骤和已有规则，把不好用的地方说具体。
 - **总在重复做的工作**：“扫描最近几次对话，看看有没有新 skill 候选。”找稳定出现的需求和可复用步骤，判断哪些值得整理成 skill 或自动化。
 
-可以定期做完整审计，也可以只查一份文档。这个包带有分层记忆模板、审计流程和文档工程参考，方便从零搭起自己的知识体系。
+可以定期做完整审计，也可以只查一份文档。这个包带有分层记忆模板、审计流程和参考材料，方便从零搭起自己的知识体系。
 
 ## 核心功能/亮点
 
 - 按完整审计或定向审查两种模式工作；对话按任务语义批量阅读，正常任务一句概览，有实质发现才展开。
 - 每周一次全量体检（跨文件重复与矛盾、跑现有测试、重读一份最久没读的治理文档），关注成功方法及流程设计；方案审查保留查错、减法、外部实践三路，首屏展示需决定的问题和收益代价。
-- 默认 report-only，不自动修改知识文档/代码；同日报续写与修改会进入后续收敛。
+- 默认 report-only，不自动修改知识文档/代码。
 - 把每条建议归位到 always-read、on-demand 或 task-specific。
 - 输出本轮实际范围与缺口、归位判断、新 skill 候选和可执行修改方案。
 - 提供四段式记忆主文档模板 + 独立审计状态模板，方便从零建立分层文档体系。
 - 已有旧版模板的使用者：审计状态（Skip 记录/暂存信号）已独立成单独模板，升级步骤见 SKILL.md「首次使用：环境自适应」。
-- 附带 Agent 文档工程参考和公开经验附录，可作为审计判断材料。
+- 附带联网信息质量规范和公开经验附录，可作为审计判断材料。
 - 支持本地水位、无人值守报告、定时自动化和多机 git 同步的通用设计思路。
 
 ## 安装
@@ -45,7 +45,7 @@ git clone https://github.com/ruodou233/upgrade-audit.git ~/.agents/skills/upgrad
 
 首次使用时，让 Agent 先只读探测已安装的平台和对话记录路径，例如 `~/.claude/projects`、`~/.codex/sessions` 或其他导出目录。写配置、扫描对话记录、接入全局记忆入口、安装定时任务前，Agent 必须说明将做什么、写到哪，并获得明确同意。
 
-本地配置优先写入 `~/.config/agentops-skills/upgrade-audit/local-config.md`；无法写入时可退回 skill 目录内 `local-config.md`。格式见 `local-config.example.md`。
+本地配置写在 skill 目录内 `local-config.md`（已被 .gitignore 忽略），格式见 `local-config.example.md`。
 
 ## 审计沉淀的证据价值
 
@@ -69,7 +69,6 @@ git clone https://github.com/ruodou233/upgrade-audit.git ~/.agents/skills/upgrad
 
 ## 相关 Skill 推荐
 
-<!-- 本表由维护脚本生成，勿手工编辑 -->
 - [agent-orchestration](https://github.com/ruodou233/agent-orchestration)：复杂任务跑到半夜，你不可能一直盯着。让 Agent 分工跑长任务和批量工作，你只管第二天早上收结果。<br>Coordinate AI agents for long-running tasks, parallel work, and overnight workflows.
 - [cross-review](https://github.com/ruodou233/cross-review)：AI 的活总差一点，总要你擦屁股，总打丑补丁？让另一家 AI 挑刺复查，自己把活干完整，不用你一直兜底。<br>An agent skill for independent code and design reviews across AI providers, checking correctness, complexity, and better approaches.
 

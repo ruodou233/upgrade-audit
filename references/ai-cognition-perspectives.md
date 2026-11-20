@@ -1,10 +1,8 @@
 # AI 认知与思考：六个根本问题上的共识与分歧
 
-> 作者整理自全球顶尖大模型厂商与从业者公开分享的经验，随 upgrade-audit 包作为可选阅读附录。
-> 本文供使用者阅读，Agent/skill 无需默认加载；操作性技巧见 `ai-knowledge-base.md`。
+> 本文供用户阅读，Agent/skill 无需加载；操作性技巧见 ai-knowledge-base.md。
 >
-> 整合自 2024–2026 年顶尖研究者、创业者、工程师的深度访谈与公开写作，截至 2026-07。不按人物罗列，而按这些人实际在回答的根本问题重组：AI 的本质是什么、能力边界由什么决定、瓶颈往哪里迁移、护城河在模型还是 harness、AGI 有多远、人和组织该怎么变。每个问题下先给收敛的判断，再给真正的分歧。
-> **核实约定**：主要事实性表述已交叉核对（详见文末说明），但部分行业数字与流传数据未能核实一手来源，文中以〔待核实〕或"未经一手来源核验"随文标注；引用前请自行验证。
+> 整合自 2024–2026 年顶尖研究者、创业者、工程师的深度访谈与公开写作，更新至 2026 年 6 月。不按人物罗列，而按这些人实际在回答的根本问题重组：AI 的本质是什么、能力边界由什么决定、瓶颈往哪里迁移、护城河在模型还是 harness、AGI 有多远、人和组织该怎么变。每个问题下先给收敛的判断，再给真正的分歧。
 
 ---
 
@@ -69,7 +67,7 @@
 
 这是素材里第一个真分歧所在，但先说数据，因为数据本身出人意料。
 
-**Scaffold 对表现的影响已经和模型本身同量级。** SWE-bench 2026 年的数据（下列具体数字均转述自行业讨论，未经一手来源核验，取其量级与现象即可）：六个前沿模型彼此相差不到 0.8 分，但同一个模型在不同 agent 系统下差 5.2 分。同一个"SWE-bench Pro 最好成绩"有至少三个数字同时流通（标准化 scaffold 下 59.1%、厂商自家 scaffold 下 69.2%、商业闭源子集下 47.1%〔待核实〕）——引用任何分数都必须说明条件。更糟的是基准与产品的脱节：Augment 报告"改善生产 agent 的改动往往不动 SWE-bench 分数"，METR 发现许多通过 SWE-bench 的 PR 过不了人工 review、模型在长任务上急剧退化。SWE-bench Verified 本身据称在 2026 年被 OpenAI 公开放弃（审计发现 59.4% 最难未解题有缺陷测试用例；此说法与数字待核实）。结论：把基准分数当能力上界而非真实工程能力，重要选型用任务特定 eval 收尾。
+**Scaffold 对表现的影响已经和模型本身同量级。** SWE-bench 2026 年的数据（下列具体数字均转述自行业讨论，未经一手来源核验，取其量级与现象即可）：六个前沿模型彼此相差不到 0.8 分，但同一个模型在不同 agent 系统下差 5.2 分。同一个"SWE-bench Pro 最好成绩"有至少三个数字同时流通（标准化 scaffold 下 59.1%、厂商自家 scaffold 下 69.2%、商业私有子集下 47.1%〔待核实〕）——引用任何分数都必须说明条件。更糟的是基准与产品的脱节：Augment 报告"改善生产 agent 的改动往往不动 SWE-bench 分数"，METR 发现许多通过 SWE-bench 的 PR 过不了人工 review、模型在长任务上急剧退化。SWE-bench Verified 本身据称在 2026 年被 OpenAI 公开放弃（审计发现 59.4% 最难未解题有缺陷测试用例；此说法与数字待核实）。结论：把基准分数当能力上界而非真实工程能力，重要选型用任务特定 eval 收尾。
 
 开发者社区的经验与此呼应：技术社区偏好 Claude API 的核心原因不是能力更强，而是指令遵从更稳定。Reddit r/MachineLearning 上的高票观察：指定"用 React hooks，不要 class components"，Claude 遵从；GPT-4o 经常回复"你也可以考虑……"然后无视要求。有团队报告切换后，"AI 做了奇怪的事"类 support ticket 减少了 70%。认知含义比表面深：**工程场景里，可预测性和可控性比偶尔的超水平发挥更有价值**——一个 90 分但稳定遵从指令的模型，在生产环境中往往优于一个 95 分但时不时自作主张的模型。
 
@@ -93,7 +91,7 @@ Freda Duan（Altimeter，张小珺访谈 #141）的飞轮论支持模型侧："b
 
 先摆光谱，再挖分歧的本质。
 
-**保守端。** Chollet 和 LeCun 的立场：纯 scaling 到不了 AGI。这不只是两个人的直觉——AAAI 2025 年调查 475 名社区受访者（约 67% 来自学界），76% 认为"放大现有方法"产生 AGI"不太可能"或"非常不太可能"。Chollet 的理由是定义性的："人类考试不是为测量智能设计的"——智能是高效获取新技能、解决未曾训练过的新问题的效率比率，不是考高分；他偏好深度学习加 program synthesis 的路径。Hassabis 温和一些："我猜测还需要一到两个大突破——Transformer 级别或 AlphaGo 级别的。"但他同时给了一个不该被忽略的量化观察：同一模型关掉思考"大概是大师级"，打开思考"远超世界冠军级，两个版本相差 600+ ELO"——test-time compute 带来的是质变而非渐进。
+**保守端。** Chollet 和 LeCun 的立场：纯 scaling 到不了 AGI。这不只是两个人的直觉——AAAI 2025 年调查 475 名社区受访者（约 67% 来自学界），76% 认为"放大现有方法"产生 AGI"不太可能"或"非常不太可能"。Chollet 的理由是定义性的："人类考试不是为测量智能设计的"——智能是高效获取新技能、解决未曾训练过的新问题的效率比率，不是考高分；他偏好深度学习加 program synthesis 的路径。Hassabis 温和一些："我猜测还需要一到两个大突破——Transformer 级别或 AlphaGo 级别的。"但他同时给了一个不该被忽略的量化观察：同一模型打开思考比关掉高 600+ ELO（数据见问题二）——即便主张"还缺一到两个大突破"的人，也承认 test-time compute 是质变而非渐进。
 
 **激进端。** Altman（《The Gentle Singularity》，2025 年 6 月）：心智模型是"奇迹变成常规，再变成基本标配"，预测 2026 年很可能见证能找出新颖洞见的系统。Dario Amodei（《Machines of Loving Grace》，2024 年 10 月）：大多数人低估了 AI 上行空间有多激进——强 AI 是能设计实验、发明方法的"虚拟生物学家"，可把一个世纪的生物学进展压缩到 5–10 年。注意两人的诸多陈述是前瞻性预测，用未来/条件时态表达，不应当作已发生的事实。
 
@@ -202,7 +200,7 @@ Mollick 的四原则在这个语境下值得保留：①凡事都用 AI 试一�
 
 ## 来源清单（仅列实际引用）
 
-- **英文侧**：Karpathy（Dwarkesh 播客 2025.10 / Sequoia Ascent 2026 / Software 3.0 论述 / CS231n）、Simon Willison（博客与 X）、Jeremy Howard（Solveit / Dialogue Engineering）、Ethan Mollick（One Useful Thing / Co-Intelligence；BCG 实验：Dell'Acqua 等，Organization Science 2026）、Lilian Weng（Lil'Log）、Riley Goodside（X，2025.11）、François Chollet（AI Startup School 2025.6 / ARC Prize / Lightcone 2026）、Yann LeCun、Demis Hassabis（Axios / Google I/O）、Sam Altman（The Gentle Singularity，2025.6）、Dario Amodei（Machines of Loving Grace 2024.10 / Axios 采访 2025.5 / The Adolescence of Technology 2026.1）、John Schulman（Dwarkesh）、Mark Zuckerberg（Dwarkesh 2024）、Jensen Huang（BG2 / Lex / GTC）、Amanda Askell（Lex #452 / Anthropic 博文）、Fiona Fung（Code with Claude 2026 London）、AAAI 2025 社区调查、IEEE Spectrum 2025.12、Ravio《2025 Tech Job Market Report》、微软 FY26 Q2 财报、Bank of America 估计（经 Mollick 引用）、Theo（t3.gg）、SWE-bench Pro（Scale AI）/ Augment / METR 报告、Anthropic Opus 4.6/4.7 黑客松（评委 April Guo）、开发者社区（Reddit r/MachineLearning、MCP 官方博客）。
+- **英文侧**：Karpathy（Dwarkesh 播客 2025.10 / Sequoia Ascent 2026 / Software 3.0 论述 2025.6 / CS231n）、Simon Willison（博客与 X）、Jeremy Howard（Solveit / Dialogue Engineering）、Ethan Mollick（One Useful Thing / Co-Intelligence；BCG 实验：Dell'Acqua 等，Organization Science 2026）、Lilian Weng（Lil'Log）、Riley Goodside（X，2025.11）、François Chollet（AI Startup School 2025.6 / ARC Prize / Lightcone 2026）、Yann LeCun、Demis Hassabis（Axios / Google I/O）、Sam Altman（The Gentle Singularity，2025.6）、Dario Amodei（Machines of Loving Grace 2024.10 / Axios 采访 2025.5 / The Adolescence of Technology 2026.1）、John Schulman（Dwarkesh）、Mark Zuckerberg（Dwarkesh 2024）、Jensen Huang（BG2 / Lex / GTC）、Amanda Askell（Lex #452 / Anthropic 博文）、Fiona Fung（Code with Claude 2026 London）、AAAI 2025 社区调查、IEEE Spectrum 2025.12、Ravio《2025 Tech Job Market Report》、微软 FY26 Q2 财报、Bank of America 估计（经 Mollick 引用）、Theo（t3.gg）、SWE-bench Pro（Scale AI）/ Augment / METR 报告、Anthropic Opus 4.6/4.7 黑客松（评委 April Guo）、开发者社区（Reddit r/MachineLearning、MCP 官方博客）。
 - **中文侧**（均出自张小珺访谈系列及 36 氪暗涌）：梁文锋（36氪暗涌）、罗福莉（#138，2026.3）、姚顺宇（#140；涉及个人经历部分据其自述及虎嗅报道）、李广密（拾象，#136，2026.5）、戴雨森（真格基金，#142，2026.5）、Freda Duan（Altimeter，#141）。
 
-*时间范围 2024–2026-07。事实性表述经交叉核对：BCG 实验数字与作者归属、Goodside/Karpathy 时序、Jensen Huang scaling law 条数、Dario 预警首次出处、Tiny Recursive Model 方法归类、姚顺宇个人经历表述。文中标注〔待核实〕的条目（SWE-bench Pro 分数、"OpenAI 放弃 Verified"）为未能找到一手来源的流传数据，保留是取其现象含义。*
+*时间范围 2024–2026.6。事实性表述经双重审计校正：BCG 实验数字与作者归属、Goodside/Karpathy 时序、Jensen Huang scaling law 条数、Dario 预警首次出处、Tiny Recursive Model 方法归类、姚顺宇个人经历表述。文中标注〔待核实〕的条目（SWE-bench Pro 分数、"OpenAI 放弃 Verified"）为审计中未能找到一手来源的流传数据，保留是取其现象含义。*

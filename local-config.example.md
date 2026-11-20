@@ -1,6 +1,6 @@
 # upgrade-audit local-config.example.md
 
-> 复制为 `~/.config/agentops-skills/upgrade-audit/local-config.md` 或 skill 目录内 `local-config.md` 后按你的环境填写。
+> 复制为 skill 目录内 `local-config.md`（已被 .gitignore 忽略）后按你的环境填写。
 > 写配置、读取/扫描对话记录、修改全局记忆入口、安装定时任务前，Agent 必须先获得你的明确同意。
 
 ## 文档体系
@@ -26,7 +26,7 @@
 - report_dir: `~/Documents/AgentOps/reports/upgrade-audit`
 - advance_watermark_only_after_success: true
 
-水位只推进到连续已审阅完成处；未读位置与完成批次保留在现有日报，续跑合并。若启用周收敛，在现有运行日志保存收敛开始时间，按其后新增或修改的日报消费；旧日期水位迁移包含边界日，读取期间再次修改的报告留到下轮，不另建状态库。
+水位只推进到连续已审阅完成处；未读位置与完成批次保留在现有日报，续跑合并。
 
 ## 运行模式
 
@@ -39,7 +39,7 @@
 
 - git_sync_enabled: false
 - pull_before_audit: true
-- push_after_approved_changes: true
+- push_after_approved_changes: false
 - repo_remote: `<your-git-remote>`
 
 ## 开源维护可选项
